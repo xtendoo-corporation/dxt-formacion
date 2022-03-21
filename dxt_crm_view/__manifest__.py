@@ -1,9 +1,9 @@
 # Copyright 2022 Xtendoo
 
 {
-    "name": "DXT CRM Kamban View",
+    "name": "DXT CRM View",
     "summary": """
-        Modify views kamban""",
+        Modify views CRM""",
     "version": "15.0",
     "depends": ["crm"],
     "maintainers": ["dariocruzmauro"],
