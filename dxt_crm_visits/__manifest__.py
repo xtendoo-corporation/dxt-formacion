@@ -1,9 +1,9 @@
 # Copyright 2022 Xtendoo
 
 {
-    "name": "DXT CRM View",
+    "name": "DXT CRM Visits",
     "summary": """
-        Modify views CRM""",
+        Modify views CRM Visits""",
     "version": "15.0",
     "depends": ["crm"],
     "maintainers": ["dariocruzmauro"],
