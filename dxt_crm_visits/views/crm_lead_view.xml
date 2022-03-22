@@ -9,9 +9,17 @@
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page string="Visitas">
-                    <div>
-                        <field name="create_date" />
-                    </div>
+                    <group>
+                        <field name="visit" />
+                        <field
+                            name="date_visit"
+                            attrs="{'invisible':[('visit','=',False)]}"
+                        />
+                        <field
+                            name="place_visit_id"
+                            attrs="{'invisible':[('visit','=',False)]}"
+                        />
+                    </group>
                 </page>
             </notebook>
         </field>

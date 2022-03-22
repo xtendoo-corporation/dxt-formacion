@@ -9,7 +9,10 @@
     "maintainers": ["dariocruzmauro"],
     "author": "Xtendoo",
     "license": "AGPL-3",
-    "data": ["views/crm_lead_view.xml"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/crm_lead_view.xml"
+            ],
     "installable": True,
     "auto_install": True,
 }
