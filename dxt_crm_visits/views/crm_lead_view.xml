@@ -24,4 +24,11 @@
             </notebook>
         </field>
     </record>
+
+    <record id="place_lead_visit_action" model="ir.actions.act_window">
+        <field name="name">Lugares</field>
+        <field name="res_model">place.visit</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 </odoo>

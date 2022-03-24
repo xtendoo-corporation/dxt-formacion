@@ -11,7 +11,8 @@
     "license": "AGPL-3",
     "data": [
         "security/ir.model.access.csv",
-        "views/crm_lead_view.xml"
+        "views/crm_lead_view.xml",
+        "views/place.xml"
             ],
     "installable": True,
     "auto_install": True,
