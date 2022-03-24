@@ -26,7 +26,7 @@
     </record>
 
     <record id="place_lead_visit_action" model="ir.actions.act_window">
-        <field name="name">Lugares</field>
+        <field name="name">Lugares de visita</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">place.visit</field>
         <field name="view_mode">tree,form</field>
@@ -36,7 +36,7 @@
 
     <menuitem
         id="place_lead_visit"
-        name="Lugares"
+        name="Lugares de visita"
         parent="crm.crm_menu_config"
         action="place_lead_visit_action"
     />

@@ -20,9 +20,9 @@ class CrmLead(models.Model):
         string="Visita"
     )
     date_visit = fields.Datetime(
-        string="Fecha y hora"
+        string="Fecha y hora de visita"
     )
     place_visit_id = fields.Many2one(
         comodel_name="place.visit",
-        string="Lugar",
+        string="Lugar de visita",
     )
