@@ -9,6 +9,9 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <div>
+                <field name="contact_name" />
+                </div>
+                <div>
                 <field name="create_date" />
                 </div>
             </field>
@@ -20,8 +23,18 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//form//sheet//notebook//page[@name='lead']//group//group//label[@for='contact_name_page_lead']" position="attributes">
+            <xpath expr="//form//sheet//group//group[@name='opportunity_partner']//field[@name='partner_id']" position="before">
+                <field name="contact_name"/>
+                <field name="title"/>
+            </xpath>
+            <xpath expr="//form//sheet//group//group[@name='opportunity_partner']//field[@name='contact_name']" position="attributes">
                 <attribute name="string">Nombre del alumno</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//notebook//page[@name='lead']//group//group//field[@name='title']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//notebook//page[@name='lead']//group//group//field[@name='contact_name']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//form//sheet//notebook//page[@name='lead']//group//group//field[@name='medium_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
