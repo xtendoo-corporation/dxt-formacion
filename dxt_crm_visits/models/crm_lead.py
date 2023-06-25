@@ -10,17 +10,19 @@ class PlaceVisit(models.Model):
         required=True,
         inverse_name="place_visit_id",
     )
-    name = fields.Char(string='Lugar')
+    name = fields.Char(
+        string='Lugar',
+    )
 
 class CrmLead(models.Model):
     _inherit = "crm.lead"
 
     visit = fields.Boolean(
         default=False,
-        string="Visita"
+        string="Visita",
     )
     date_visit = fields.Datetime(
-        string="Fecha y hora de visita"
+        string="Fecha y hora de visita",
     )
     place_visit_id = fields.Many2one(
         comodel_name="place.visit",
