@@ -15,7 +15,7 @@
                     <p>
                         Para finalizar su inscripción, debe acceder al siguiente enlace:
                      </p>
-                    <a href="https://pre-dxt.xtendoo.es/form/leads/{{ object_id }}?access_token={{ access_token }}">Completa el formulario y reserva tu plaza</a>
+                    <a href="https://dxt.xtendoo.es/form/leads/{{ object_id }}?access_token={{ access_token }}">Completa el formulario y reserva tu plaza</a>
                 </div>
             </field>
         </record>
