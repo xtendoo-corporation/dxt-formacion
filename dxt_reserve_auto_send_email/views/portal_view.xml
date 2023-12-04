@@ -13,16 +13,8 @@
 
                 <table class="table table-sm table-hover table-striped o_portal_my_leads_table">
                     <tbody>
-
                         <tr>
-                            <div class="alert alert-info">
-                                <i class="fa fa-info-circle"/>
-                                <span> Por favor, cumplimente los datos del alumno.</span>
-                            </div>
-                        </tr>
-
-                        <tr>
-                            <td>Nombre y apellidossssssssssss</td>
+                            <td>Nombre y apellidos</td>
                             <td>
                                 <t t-esc="lead.partner_id and lead.partner_id.name or ''"/>
                             </td>
@@ -216,6 +208,14 @@
                         <div class="container">
                             <form action="/my/leads/confirm?" method="post">
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                <tr>
+                                    <div class="alert alert-info">
+                                        <i class="fa fa-info-circle"/>
+                                        <span> Por favor, cumplimente los datos del alumno.</span>
+                                    </div>
+                                </tr>
+
                                 <div class="s_website_form_rows row s_col_no_bgcolor">
                                     <div data-visibility-condition="" data-visibility-between=""
                                          class="form-group s_website_form_field col-12 s_website_form_model_required"
@@ -286,7 +286,7 @@
                                         <div class="row s_col_no_resize s_col_no_bgcolor">
                                             <label class="col-form-label col-sm-auto s_website_form_label "
                                                    style="width: 200px" for="oakbo8ibn1w">
-                                                <span class="s_website_form_label_content">Calle</span>
+                                                <span class="s_website_form_label_content">Dirección</span>
                                             </label>
                                             <div class="col-sm">
                                                 <input type="text" class="form-control s_website_form_input"
@@ -339,7 +339,7 @@
                                             <div class="col-sm">
                                                 <t t-set="states" t-value="lead._get_states()"/>
                                                 <t t-set="state_selected"
-                                                   t-value="lead.partner_id and lead.partner_id.state_id.id or ''"/>
+                                                   t-value="lead.partner_id and lead.partner_id.state_id.id or 'Sevilla'"/>
                                                 <select class="form-control s_website_form_input" name="state_id"
                                                         id="o2urrjcrvru5" style="">
                                                     <t t-foreach="states" t-as="state">
@@ -364,7 +364,7 @@
                                             <div class="col-sm">
                                                 <t t-set="countries" t-value="lead._get_countries()"/>
                                                 <t t-set="country_selected"
-                                                   t-value="lead.partner_id and lead.partner_id.country_id.id or ''"/>
+                                                   t-value="lead.partner_id and lead.partner_id.country_id.id or 'España'"/>
                                                 <select class="form-control s_website_form_input" name="country_id"
                                                         id="o9rkukyl0m65" style="">
                                                     <t t-foreach="countries" t-as="country">
