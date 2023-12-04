@@ -40,7 +40,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Calle</td>
+                            <td>Dirección</td>
                             <td>
                                 <t t-esc="lead.partner_id and lead.partner_id.street or ''"/>
                             </td>
@@ -84,6 +84,13 @@
                     </tbody>
                 </table>
                 <div class="container">
+
+                    <div class="alert alert-info"
+                         t-if="lead.has_to_be_signed_student() or lead.has_to_be_signed_tutor()">
+                        <i class="fa fa-info-circle"/>
+                        <span> Por favor, cumplimente las firmas.</span>
+                    </div>
+
                     <div class="row">
                         <div class="col-6" name="firma_alumno">
                             <t t-if="lead.has_to_be_signed_student()">
@@ -175,7 +182,6 @@
                                     </div>
                                 </div>
                             </t>
-
                             <t t-else="">
                                 <section t-if="lead.tutor_signature" id="tutor_signature" name="Tutor Signature">
                                     <div  name="tutor_signature">
