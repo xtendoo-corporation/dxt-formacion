@@ -11,10 +11,10 @@
                 <t t-set="access_token" t-value="request.params.get('access_token')"/>
                 <h3 style="width:100%;text-align:center;display:block">Datos del alumno</h3>
 
-                <div class="alert alert-info">
-                    <i class="fa fa-info-circle"/>
-                    <span> Por favor, cumplimente los datos del alumno.</span>
-                </div>
+<!--                <div class="alert alert-info">-->
+<!--                    <i class="fa fa-info-circle"/>-->
+<!--                    <span> Por favor, cumplimente los datos del alumno.</span>-->
+<!--                </div>-->
 
                 <table class="table table-sm table-hover table-striped o_portal_my_leads_table">
                     <tbody>
