@@ -6,10 +6,7 @@ from odoo.exceptions import UserError, AccessError
 
 class Lead(models.Model):
     _name = "crm.lead"
-    _inherit = ['portal.mixin',
-                'crm.lead',
-                ]
-    # _inherit = ['crm.lead']
+    _inherit = ['portal.mixin','crm.lead']
 
     student_signature = fields.Image('Signature', help='Signature received through the portal.', copy=False, attachment=True,
                              max_width=1024, max_height=1024)
@@ -103,11 +100,11 @@ class Lead(models.Model):
 
     def _get_states(self):
         self.ensure_one()
-        return self.env['res.country.state'].sudo().search([('country_id.code', '==', 'ES')])
+        return self.env['res.country.state'].sudo().search([('country_id.code', '=', 'ES')])
 
     def _get_countries(self):
         self.ensure_one()
-        return self.env['res.country'].sudo().search([('code', '==', 'ES')])
+        return self.env['res.country'].sudo().search([('code', '=', 'ES')])
 
     def has_to_be_signed_student(self):
         return not self.student_signature
@@ -140,9 +137,3 @@ class Lead(models.Model):
                     except UserError:
                         phone_status = 'incorrect'
                 lead.phone_state = phone_status
-
-
-
-
-
-
