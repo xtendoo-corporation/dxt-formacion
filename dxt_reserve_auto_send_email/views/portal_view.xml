@@ -22,7 +22,7 @@
                         </tr>
 
                         <tr>
-                            <td>Nombre y apellidos</td>
+                            <td>Nombre y apellidossssssssssss</td>
                             <td>
                                 <t t-esc="lead.partner_id and lead.partner_id.name or ''"/>
                             </td>

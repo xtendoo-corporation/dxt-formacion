@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='lead']" position="inside">
                 <group string="Firmas">
-                    <field name="student_signature" string="Firma estudiante" widget="signature"/>
+                    <field name="student_signature" string="Firma alumno" widget="signature"/>
                     <field name="tutor_signature" string="Firma tutor" widget="signature"/>
                 </group>
             </xpath>
