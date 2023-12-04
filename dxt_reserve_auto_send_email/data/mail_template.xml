@@ -6,10 +6,8 @@
             <field name="email_from">remite@example.com</field>
             <field name="subject">Asunto del Correo</field>
             <field name="body_html" type="html">
-                <div
-          id="content"
-          style="clear:both;width:80%;margin:10px auto;font-size:1.5em;color:black;"
-        >
+                <div id="content"
+                     style="clear:both;width:80%;margin:10px auto;font-size:1.5em;color:black;">
                     <p>Hola
                         <t t-out="object_name" data-oe-t-inline="true" contenteditable="false"/></p>
                     <p>
