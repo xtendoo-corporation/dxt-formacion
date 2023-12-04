@@ -103,11 +103,11 @@ class Lead(models.Model):
 
     def _get_states(self):
         self.ensure_one()
-        return self.env['res.country.state'].sudo().search([])
+        return self.env['res.country.state'].sudo().search([('country_id.code', '==', 'ES')])
 
     def _get_countries(self):
         self.ensure_one()
-        return self.env['res.country'].sudo().search([])
+        return self.env['res.country'].sudo().search([('code', '==', 'ES')])
 
     def has_to_be_signed_student(self):
         return not self.student_signature
