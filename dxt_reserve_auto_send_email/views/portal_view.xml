@@ -9,7 +9,13 @@
             </t>
             <t t-if="lead">
                 <t t-set="access_token" t-value="request.params.get('access_token')"/>
-                <h3 style="width:100%;text-align:center;display:block">Datos del estudiante</h3>
+                <h3 style="width:100%;text-align:center;display:block">Datos del alumno</h3>
+
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"/>
+                    <span> Por favor, cumplimente los datos del alumno.</span>
+                </div>
+
                 <table class="table table-sm table-hover table-striped o_portal_my_leads_table">
                     <tbody>
                         <tr>
@@ -51,13 +57,13 @@
                         <tr>
                             <td>Provincia</td>
                             <td>
-                                <t t-esc="lead.partner_id and lead.partner_id.state_id.name or ''"/>
+                                <t t-esc="lead.partner_id and lead.partner_id.state_id.name or 'Sevilla'"/>
                             </td>
                         </tr>
                         <tr>
                             <td>País</td>
                             <td>
-                                <t t-esc="lead.partner_id and lead.partner_id.country_id.name or ''"/>
+                                <t t-esc="lead.partner_id and lead.partner_id.country_id.name or 'España'"/>
                             </td>
                         </tr>
                         <tr>
@@ -76,11 +82,11 @@
                 </table>
                 <div class="container">
                     <div class="row">
-                        <div class="col-6" name="firma_estudiante">
+                        <div class="col-6" name="firma_alumno">
                             <t t-if="lead.has_to_be_signed_student()">
                                 <div class="col-sm-auto mt8">
                                     <a role="button" class="btn btn-primary" data-toggle="modal"
-                                       data-target="#modalaccept" href="#">Firma del estudiante
+                                       data-target="#modalaccept" href="#">Firma del alumno
                                     </a>
                                 </div>
                                 <!-- modal relative to the actions sign and pay -->
@@ -93,14 +99,14 @@
                                                 <input type="hidden" name="csrf_token"
                                                        t-att-value="request.csrf_token()"/>
                                                 <header class="modal-header">
-                                                    <h4 class="modal-title">Firma del estudiante</h4>
+                                                    <h4 class="modal-title">Firma del alumno</h4>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                             aria-label="Close">×
                                                     </button>
                                                 </header>
                                                 <main class="modal-body" id="sign-dialog">
                                                     <p>
-                                                        <span>Firma del estudiante: <b t-field="lead.partner_id"/>
+                                                        <span>Firma del alumno: <b t-field="lead.partner_id"/>
                                                         </span>
                                                     </p>
                                                     <t t-call="portal.signature_form">
@@ -119,7 +125,7 @@
                                     <div name="student_signature">
                                         <div
                                             t-attf-class="ml-auto text-center">
-                                            <h5>Firma Estudiante</h5>
+                                            <h5>Firma alumno</h5>
                                             <img t-att-src="image_data_uri(lead.student_signature)"
                                                  style="max-height: 6rem; max-width: 100%;"/>
                                             <p t-field="lead.student_signed_by"/>
@@ -152,7 +158,7 @@
                                                 </header>
                                                 <main class="modal-body" id="sign-dialog">
                                                     <p>
-                                                        <span>Firma del tutor legal del estudiante: <b t-field="lead.partner_id"/>
+                                                        <span>Firma del tutor legal del alumno: <b t-field="lead.partner_id"/>
                                                         </span>
                                                     </p>
                                                     <t t-call="portal.signature_form">
