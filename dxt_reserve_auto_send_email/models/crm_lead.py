@@ -22,13 +22,21 @@ class Lead(models.Model):
     access_token = fields.Char(string="Access Token", default=lambda self: str(uuid.uuid4()),
                                groups='base.group_system', required=True, readonly=True, copy=False)
 
+    product_id = fields.Many2one('product.template', string='Producto',)
+
     @api.onchange('stage_id')
     def _onchange_stage_id(self):
         if self.stage_id:
             if self.stage_id.name == 'Reservado':
-                self.send_email()
+                self.send_email_reservado()
+            elif self.stage_id.name == 'Informado':
+                if not self.product_id:
+                    raise UserError("Por favor, seleccione un producto.")
+                if not self.product_id.is_published:
+                    raise UserError("Por favor, seleccione un producto publicado en la web.")
+                self.send_email_informado()
 
-    def send_email(self):
+    def send_email_reservado(self):
         template = self.env.ref('dxt_reserve_auto_send_email.email_template_crm_lead')
         self_id = str(self.id)
         partes = self_id.split("_")
@@ -58,6 +66,45 @@ class Lead(models.Model):
         })
         mail_obj.send(mail_id)
         return True
+
+    def send_email_informado(self):
+        template = self.env.ref('dxt_reserve_auto_send_email.email_template_crm_lead_informado')
+        self_id = str(self.id)
+        partes = self_id.split("_")
+        self_id = partes[-1]
+        self_id = int(self_id)
+        product_url = self._get_product_url(self.product_id.website_url)
+        if not product_url:
+            raise UserError("Por favor, configure El parámetro del sistema web.base.url.")
+        template_values = {
+            'object': self,
+            'object_name': self.name,
+            'object_id': self_id,
+            'product_url': product_url,
+        }
+        template_body = template.body_html
+        rendered_template_body = Template(template_body).render(template_values)
+
+        mail_obj = self.env['mail.mail']
+        email_to = self.email_from
+        if self.contact_name:
+            subject = f"DXT Fomación Deportiva. {self.contact_name}, Reserva tu plaza"
+        else:
+            subject = "DXT Fomación Deportiva. Reserva tu plaza"
+
+        mail_id = mail_obj.create({
+            'email_from': self.user_id.email_formatted,
+            'email_to': email_to,
+            'subject': subject,
+            'body_html': rendered_template_body,
+        })
+        mail_obj.send(mail_id)
+        return True
+
+    def _get_product_url(self, product_url):
+        if not self.env['ir.config_parameter'].sudo().get_param('web.base.url'):
+            return
+        return self.env['ir.config_parameter'].sudo().get_param('web.base.url') + product_url
 
     def _get_portal_form_return_action(self):
         """ Return the action used to display orders when returning from customer portal. """
