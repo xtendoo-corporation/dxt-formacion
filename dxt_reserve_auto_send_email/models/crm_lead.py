@@ -4,25 +4,27 @@ import uuid
 from odoo.addons.phone_validation.tools import phone_validation
 from odoo.exceptions import UserError, AccessError
 
+
 class Lead(models.Model):
     _name = "crm.lead"
-    _inherit = ['portal.mixin','crm.lead']
+    _inherit = ['portal.mixin', 'crm.lead']
 
-    student_signature = fields.Image('Signature', help='Signature received through the portal.', copy=False, attachment=True,
-                             max_width=1024, max_height=1024)
+    student_signature = fields.Image('Signature', help='Signature received through the portal.', copy=False,
+                                     attachment=True,
+                                     max_width=1024, max_height=1024)
     student_signed_by = fields.Char('Signed By', help='Name of the person that signed the SO.', copy=False)
     student_signed_on = fields.Datetime('Signed On', help='Date of the signature.', copy=False)
 
     tutor_signature = fields.Image('Signature', help='Signature received through the portal.', copy=False,
-                                     attachment=True,
-                                     max_width=1024, max_height=1024)
+                                   attachment=True,
+                                   max_width=1024, max_height=1024)
     tutor_signed_by = fields.Char('Signed By', help='Name of the person that signed the SO.', copy=False)
     tutor_signed_on = fields.Datetime('Signed On', help='Date of the signature.', copy=False)
 
     access_token = fields.Char(string="Access Token", default=lambda self: str(uuid.uuid4()),
                                groups='base.group_system', required=True, readonly=True, copy=False)
 
-    product_id = fields.Many2one('product.template', string='Producto',)
+    product_id = fields.Many2one('product.template', string='Producto', )
 
     @api.onchange('stage_id')
     def _onchange_stage_id(self):
@@ -60,13 +62,16 @@ class Lead(models.Model):
 
         mail_id = mail_obj.create({
             'email_from': self.user_id.email_formatted,
+            'reply_to': self.user_id.email_formatted,
             'email_to': email_to,
             'subject': subject,
             'body_html': rendered_template_body,
+            'is_notification': True,
+            'model': 'crm.lead',
+            'res_id': self_id,
+            'body': rendered_template_body,
         })
-        mail_obj.send(mail_id)
         return True
-
     def send_email_informado(self):
         template = self.env.ref('dxt_reserve_auto_send_email.email_template_crm_lead_informado')
         self_id = str(self.id)
@@ -78,9 +83,10 @@ class Lead(models.Model):
             raise UserError("Por favor, configure El parámetro del sistema web.base.url.")
         template_values = {
             'object': self,
-            'object_name': self.name,
+            'object_name': self.contact_name,
             'object_id': self_id,
             'product_url': product_url,
+            'base_url': self.env['ir.config_parameter'].sudo().get_param('web.base.url'),
         }
         template_body = template.body_html
         rendered_template_body = Template(template_body).render(template_values)
@@ -94,11 +100,15 @@ class Lead(models.Model):
 
         mail_id = mail_obj.create({
             'email_from': self.user_id.email_formatted,
+            'reply_to': self.user_id.email_formatted,
             'email_to': email_to,
             'subject': subject,
             'body_html': rendered_template_body,
+            'is_notification': True,
+            'model': 'crm.lead',
+            'res_id': self_id,
+            'body': rendered_template_body,
         })
-        mail_obj.send(mail_id)
         return True
 
     def _get_product_url(self, product_url):
@@ -120,7 +130,6 @@ class Lead(models.Model):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
         return '/my/leads/%s/accept_tutor?access_token=%s' % (lead_id.id, access_token)
-
 
     def get_portal_url(self, suffix=None, report_type=None, download=None, query_string=None, anchor=None):
         """
@@ -168,7 +177,8 @@ class Lead(models.Model):
         self.ensure_one()
         if self.partner_id and self.phone != self.partner_id.phone:
             lead_phone_formatted = self.phone_get_sanitized_number(number_fname='phone') or self.phone or False
-            partner_phone_formatted = self.partner_id.phone_get_sanitized_number(number_fname='phone') or self.partner_id.phone or False
+            partner_phone_formatted = self.partner_id.phone_get_sanitized_number(
+                number_fname='phone') or self.partner_id.phone or False
             return lead_phone_formatted != partner_phone_formatted
         return False
 
