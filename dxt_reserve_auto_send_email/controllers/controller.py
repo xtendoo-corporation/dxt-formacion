@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+## -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import binascii
@@ -87,6 +87,9 @@ class CustomerPortal(portal.CustomerPortal):
                     subtype_xmlid="mail.mt_note",
                     partner_ids=lead_sudo.user_id.sudo().partner_id.ids,
                 )
+                print("*"*100)
+                print("access_token", access_token)
+                print("*"*100)
 
         values = {
             'lead': lead_sudo,
@@ -138,16 +141,22 @@ class CustomerPortal(portal.CustomerPortal):
 
     @http.route('/my/leads/confirm', type='http', auth="public", website=True)
     def lead_confirm(self, **post):
+        print("*"*100)
+        print("post", post)
         lead = post.get('lead')
         access_token = post.get('access_token')
         partner_name = post.get('name')
         partner = request.env['res.partner'].sudo().search([
             ('name', '=', partner_name),
         ])
+        print("lead", lead)
+        print("access_token", access_token)
+        print("partner_name", partner_name)
+        print("partner", partner)
         date_birth = post.get('date_birth')
-        if date_birth:
-            date_birth = date_birth.replace("/", "")
-            date_birth = datetime.datetime.strptime(date_birth, '%d%m%Y').date()
+        # # if date_birth:
+        # #     date_birth = date_birth.replace("/", "")
+        # #     date_birth = datetime.datetime.strptime(date_birth, '%d%m%Y').date()
         if post.get('country_id'):
             country = request.env['res.country'].sudo().browse(post.get('country_id'))
             if not country:
@@ -186,17 +195,18 @@ class CustomerPortal(portal.CustomerPortal):
                     'vat': post.get('vat')
                 }
             )
-        lead_to_write = request.env['crm.lead'].sudo().search([
-            ('id', '=', post.get('lead')),
-        ])
-        lead_to_write = lead_to_write[0]
-        lead_to_write = lead_to_write.with_context(no_tracking=True)
-        lead_to_write.sudo().write(
-            {
-                'partner_id': partner.id,
-            }
-        )
+        # lead_to_write = request.env['crm.lead'].sudo().search([
+        #     ('id', '=', post.get('lead')),
+        # ])
+        # lead_to_write = lead_to_write[0]
+        # lead_to_write = lead_to_write.with_context(no_tracking=True)
+        # lead_to_write.sudo().write(
+        #     {
+        #         'partner_id': partner.id,
+        #     }
+        # )
 
-        redirect_url = '/my/leads/%s?access_token=%s' % (lead, access_token)
-        return request.redirect(redirect_url)
-
+        # redirect_url = '/my/leads/%s?access_token=%s' % (lead, access_token)
+        # return request.redirect(redirect_url)
+        url = '/my/leads/%s?access_token=%s' % (lead, access_token)
+        return request.redirect(url)

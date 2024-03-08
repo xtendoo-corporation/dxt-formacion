@@ -207,7 +207,7 @@
                              data-snippet="s_website_form" data-name="Form" style="background-image: none;">
                         <div class="container">
                             <form action="/my/leads/confirm?" method="post">
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" id="owtxa4wh65s85" name="csrf_token" t-att-value="request.csrf_token()"/>
 
                                 <tr>
                                     <div class="alert alert-info">
@@ -215,7 +215,20 @@
                                         <span> Por favor, cumplimente los datos del alumno.</span>
                                     </div>
                                 </tr>
-
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class=" col-sm-auto s_website_form_label " style="width: 200px"
+                                                   for="owtxa4wh65s7">
+                                                <span class="s_website_form_label_content">Token</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input type="text" t-att-value="lead.access_token"
+                                                       class="form-control s_website_form_input" name="access_token"
+                                                       id="owtxa4wh65s7" data-fill-with="lead.access_token"/>
+                                                <span class="invalid-feedback position-absolute">
+                                                    <i class="fa fa-warning"/>
+                                                </span>
+                                            </div>
+                                        </div>
                                 <div class="s_website_form_rows row s_col_no_bgcolor">
                                     <div data-visibility-condition="" data-visibility-between=""
                                          class="form-group s_website_form_field col-12 s_website_form_model_required"
@@ -446,20 +459,20 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class=" col-sm-auto s_website_form_label " style="width: 200px"
-                                                   for="owtxa4wh65s7">
-                                                <span class="s_website_form_label_content">Token</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                <input type="text" t-att-value="request.csrf_token()"
-                                                       class="form-control s_website_form_input" name="access_token"
-                                                       id="owtxa4wh65s7" data-fill-with="undefined"/>
-                                                <span class="invalid-feedback position-absolute">
-                                                    <i class="fa fa-warning"/>
-                                                </span>
-                                            </div>
-                                        </div>
+<!--                                        <div class="row s_col_no_resize s_col_no_bgcolor">-->
+<!--                                            <label class=" col-sm-auto s_website_form_label " style="width: 200px"-->
+<!--                                                   for="owtxa4wh65s7">-->
+<!--                                                <span class="s_website_form_label_content">Token</span>-->
+<!--                                            </label>-->
+<!--                                            <div class="col-sm">-->
+<!--                                                <input type="text" t-att-value="request.csrf_token()"-->
+<!--                                                       class="form-control s_website_form_input" name="access_token"-->
+<!--                                                       id="owtxa4wh65s7" data-fill-with="lead.access_token"/>-->
+<!--                                                <span class="invalid-feedback position-absolute">-->
+<!--                                                    <i class="fa fa-warning"/>-->
+<!--                                                </span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="col-12 s_website_form_submit">
