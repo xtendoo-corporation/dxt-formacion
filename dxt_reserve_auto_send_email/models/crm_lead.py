@@ -25,6 +25,8 @@ class Lead(models.Model):
     access_token = fields.Char(string="Access Token", default=lambda self: str(uuid.uuid4()),
                                groups='base.group_system', required=True, readonly=True, copy=False)
 
+    is_data_confirmed = fields.Boolean('Data Confirmed', default=False)
+
     @api.onchange('stage_id')
     def _onchange_stage_id(self):
         if self.stage_id:
