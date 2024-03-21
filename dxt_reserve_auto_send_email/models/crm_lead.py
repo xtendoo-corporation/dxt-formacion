@@ -58,9 +58,9 @@ class Lead(models.Model):
         mail_obj = self.env['mail.mail']
         email_to = self.email_from
         if self.contact_name:
-            subject = f"DXT Fomación Deportiva. {self.contact_name}, finaliza tu inscripción"
+            subject = f"DXT Formación Deportiva. {self.contact_name}, finaliza tu inscripción"
         else:
-            subject = "DXT Fomación Deportiva. Finaliza tu inscripción"
+            subject = "DXT Formación Deportiva. Finaliza tu inscripción"
 
         mail_id = mail_obj.create({
             'email_from': self.user_id.email_formatted,
@@ -96,7 +96,7 @@ class Lead(models.Model):
         mail_obj = self.env['mail.mail']
         email_to = self.email_from
         if self.contact_name:
-            subject = f"DXT Fomación Deportiva. {self.contact_name}, Reserva tu plaza"
+            subject = f"DXT Formación Deportiva. {self.contact_name}, Reserva tu plaza"
         else:
             subject = "DXT Formación Deportiva. Reserva tu plaza"
 
