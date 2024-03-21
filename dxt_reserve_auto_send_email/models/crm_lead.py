@@ -98,7 +98,7 @@ class Lead(models.Model):
         if self.contact_name:
             subject = f"DXT Fomación Deportiva. {self.contact_name}, Reserva tu plaza"
         else:
-            subject = "DXT Fomación Deportiva. Reserva tu plaza"
+            subject = "DXT Formación Deportiva. Reserva tu plaza"
 
         mail_id = mail_obj.create({
             'email_from': self.user_id.email_formatted,
