@@ -207,7 +207,7 @@
                              data-snippet="s_website_form" data-name="Form" style="background-image: none;">
                         <div class="container">
                             <div t-if="lead.is_data_completed != True">
-                                <form action="/my/leads/confirm?" method="post">
+                                <form action="/my/leads/confirm" method="POST">
                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 
                                 <tr>

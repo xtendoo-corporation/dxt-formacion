@@ -101,7 +101,7 @@ class CustomerPortal(portal.CustomerPortal):
         return request.render('dxt_reserve_auto_send_email.portal_my_leads_form', values)
 
     @http.route(['/my/leads/<int:lead_id>'], type='http', auth="public", website=True)
-    def portal_lead_page(self, lead_id, report_type=None, access_token=None, message=False, download=False, **kw):
+    def portal_lead_page(self, lead_id, access_token=None, message=False):
         try:
             lead_sudo = self._document_check_access('crm.lead', lead_id, access_token=access_token)
             print("lead_sudo", lead_sudo)
@@ -136,10 +136,29 @@ class CustomerPortal(portal.CustomerPortal):
         }
         return request.render('dxt_reserve_auto_send_email.lead_confirm_data_template', values)
 
-    @http.route('/my/leads/confirm', type='http', auth="public", website=True)
+    @http.route('/my/leads/test', type='http', auth="public", methods=['post','get'], website=True)
+    def lead_test(self, **post):
+
+        print("*"*80)
+        print("post", post)
+        print("*"*80)
+
+        response = request.render("website.contactus_thanks")
+        response.headers['X-Frame-Options'] = 'DENY'
+        return response
+
+    @http.route('/my/leads/confirmundefined', type='http', auth="public", methods=['post','get'], website=True)
     def lead_confirm(self, **post):
+
+        print("*"*80)
+        print("post", post)
+        print("*"*80)
+
+        response = request.render("website.contactus_thanks")
+        response.headers['X-Frame-Options'] = 'DENY'
+        return response
+
         lead = post.get('lead')
-        access_token = post.get('access_token')
         partner_name = post.get('name')
         partner = request.env['res.partner'].sudo().search([
             ('name', '=', partner_name),
@@ -197,9 +216,12 @@ class CustomerPortal(portal.CustomerPortal):
             }
         )
 
-        redirect_url = lead_to_write._get_data_complete_url(lead_to_write, access_token)
-        print("*"*50)
-        print("redirect_url", redirect_url)
-        print("*"*50)
-        return request.redirect(redirect_url)
+        # redirect_url = 'http://localhost:15069/my/leads/%s?access_token=%s' % (lead_to_write.id, access_token)
+
+        # redirect_url = lead_to_write._get_data_complete_url(access_token)
+
+        response = request.render("website.contactus_thanks")
+        response.headers['X-Frame-Options'] = 'DENY'
+        return response
+
 

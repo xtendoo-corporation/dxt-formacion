@@ -123,10 +123,10 @@ class Lead(models.Model):
         self.ensure_one()
         return self.env.ref('dxt_reserve_auto_send_email.portal_my_leads_form')
 
-    def _get_data_complete_url(self, lead_id, access_token):
+    def _get_data_complete_url(self, access_token):
         """ Return the action used to display orders when returning from customer portal. """
         self.ensure_one()
-        return '/form/leads/%s?access_token=%s' % (lead_id.id, access_token)
+        return '/my/leads/%s?access_token=%s' % (self.id, access_token)
 
     def _get_student_sign_url(self, lead_id, access_token):
         """ Return the action used to display orders when returning from customer portal. """
