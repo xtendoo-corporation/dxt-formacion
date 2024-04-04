@@ -7,7 +7,7 @@ from odoo.exceptions import AccessError, MissingError, ValidationError
 from odoo.http import request
 from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.portal.controllers import portal
-import datetime
+from datetime import datetime
 
 class CustomerPortal(portal.CustomerPortal):
 
@@ -101,10 +101,11 @@ class CustomerPortal(portal.CustomerPortal):
         return request.render('dxt_reserve_auto_send_email.portal_my_leads_form', values)
 
     @http.route(['/my/leads/<int:lead_id>'], type='http', auth="public", website=True)
-    def portal_lead_page(self, lead_id, access_token=None, message=False):
+    def portal_lead_page(self, lead_id, access_token=None, message=False, **post):
+        if post:
+            self.update_student_data(post)
         try:
             lead_sudo = self._document_check_access('crm.lead', lead_id, access_token=access_token)
-            print("lead_sudo", lead_sudo)
         except (AccessError, MissingError):
             return request.redirect('/my')
         if lead_sudo:
@@ -136,50 +137,36 @@ class CustomerPortal(portal.CustomerPortal):
         }
         return request.render('dxt_reserve_auto_send_email.lead_confirm_data_template', values)
 
-    @http.route('/my/leads/test', type='http', auth="public", methods=['post','get'], website=True)
-    def lead_test(self, **post):
-
-        print("*"*80)
-        print("post", post)
-        print("*"*80)
-
-        response = request.render("website.contactus_thanks")
-        response.headers['X-Frame-Options'] = 'DENY'
-        return response
-
-    @http.route('/my/leads/confirmundefined', type='http', auth="public", methods=['post','get'], website=True)
-    def lead_confirm(self, **post):
-
-        print("*"*80)
-        print("post", post)
-        print("*"*80)
-
-        response = request.render("website.contactus_thanks")
-        response.headers['X-Frame-Options'] = 'DENY'
-        return response
-
-        lead = post.get('lead')
+    def update_student_data(self, post):
         partner_name = post.get('name')
         partner = request.env['res.partner'].sudo().search([
-            ('name', '=', partner_name),
-        ])
+                ('name', '=', partner_name),
+            ])
         date_birth = post.get('date_birth')
-        # if date_birth:
-        #     date_birth = date_birth.replace("/", "")
-        #     date_birth = datetime.datetime.strptime(date_birth, '%d%m%Y').date()
+        if date_birth:
+            date_to_save = date_birth[6:10] + "/" + date_birth[0:2] + "/" + date_birth[3:5]
+            date_birth = datetime.strptime(date_to_save, '%Y/%m/%d').date()
         if post.get('country_id'):
             country = request.env['res.country'].sudo().browse(post.get('country_id'))
             if not country:
-                country = ""
+                country = None
+            else:
+                country = country[0].id
+        if post.get('state_id'):
+            state = request.env['res.country.state'].sudo().browse(post.get('state_id'))
+            if not state:
+                state = None
+            else:
+                state = state[0].id
         if not partner:
             partner = request.env['res.partner'].with_context(no_vat_validation=True).sudo().create(
                 {
                     'name': partner_name,
                     'email': post.get('email'),
                     'phone': post.get('phone'),
-                    'country_id': country.id,
+                    'country_id': country,
                     'street': post.get('street'),
-                    'state_id': post.get('state_id'),
+                    'state_id': state,
                     'city': post.get('city'),
                     'zip': post.get('zip'),
                     'is_student': True,
@@ -195,9 +182,9 @@ class CustomerPortal(portal.CustomerPortal):
                     'name': partner_name,
                     'email': post.get('email'),
                     'phone': post.get('phone'),
-                    'country_id': country.id,
+                    'country_id': country,
                     'street': post.get('street'),
-                    'state_id': post.get('state_id'),
+                    'state_id': state,
                     'city': post.get('city'),
                     'zip': post.get('zip'),
                     'is_student': True,
@@ -206,8 +193,8 @@ class CustomerPortal(portal.CustomerPortal):
                 }
             )
         lead_to_write = request.env['crm.lead'].sudo().search([
-            ('id', '=', int(post.get('lead'))),
-        ])
+                ('id', '=', int(post.get('lead'))),
+            ])
         lead_to_write = lead_to_write[0]
         lead_to_write = lead_to_write.with_context(no_tracking=True)
         lead_to_write.sudo().write(
@@ -215,13 +202,4 @@ class CustomerPortal(portal.CustomerPortal):
                 'partner_id': partner.id,
             }
         )
-
-        # redirect_url = 'http://localhost:15069/my/leads/%s?access_token=%s' % (lead_to_write.id, access_token)
-
-        # redirect_url = lead_to_write._get_data_complete_url(access_token)
-
-        response = request.render("website.contactus_thanks")
-        response.headers['X-Frame-Options'] = 'DENY'
-        return response
-
 

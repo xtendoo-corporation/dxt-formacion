@@ -20,12 +20,12 @@ class PhoneMixin(models.AbstractModel):
             return
         self._assert_phone_field()
         number_fields = self._phone_get_number_fields()
-        for record in self:
-            for fname in number_fields:
-                sanitized = record.phone_get_sanitized_number(number_fname=fname)
-                if sanitized:
-                    break
-            record.phone_sanitized = sanitized
+        # for record in self:
+        #     for fname in number_fields:
+                # sanitized = record.phone_get_sanitized_number(number_fname=fname)
+                # if sanitized:
+                #     break
+            # record.phone_sanitized = sanitized
 
 class MailThread(models.AbstractModel):
     _inherit = 'mail.thread'

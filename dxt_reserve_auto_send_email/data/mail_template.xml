@@ -14,7 +14,7 @@
                     <p>
                         Para finalizar su inscripción, debe acceder al siguiente enlace:
                      </p>
-                    <a href="{{ base_url }}/form/leads/{{ object_id }}?access_token={{ access_token }}">Completa el formulario y reserva tu plaza</a>
+                    <a href="{{ base_url }}/my/leads/{{ object_id }}?access_token={{ access_token }}">Completa el formulario y reserva tu plaza</a>
                 </div>
             </field>
         </record>

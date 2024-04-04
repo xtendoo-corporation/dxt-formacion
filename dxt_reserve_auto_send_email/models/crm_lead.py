@@ -3,6 +3,7 @@ from jinja2 import Template
 import uuid
 from odoo.addons.phone_validation.tools import phone_validation
 from odoo.exceptions import UserError, AccessError
+from datetime import datetime
 
 
 class Lead(models.Model):
@@ -27,6 +28,34 @@ class Lead(models.Model):
     product_id = fields.Many2one('product.template', string='Producto', )
 
     is_data_completed = fields.Boolean(string='Datos completos', default=False)
+
+    def show_date_birth(self, date):
+        date = date.strftime('%d/%m/%Y')
+        return date
+
+    def convert_date_to_datetime(self):
+        if self.partner_id and self.partner_id.date_birth:
+            date = self.partner_id.date_birth.strftime('%m/%d/%Y %I:%M %p')
+        else:
+            date = ''
+        return date
+
+    def get_state_name(self, state_id):
+        state = self.env['res.country.state'].search([('id', '=', state_id)])
+        if not state:
+            return ''
+        return state.name
+
+    def get_country_name(self, country_id):
+        country = self.env['res.country'].search([('id', '=', country_id)])
+        if not country:
+            return ''
+        return country.name
+
+    def get_state_selected(self):
+        if self.partner_id and self.partner_id.state_id:
+            return self.partner_id.state_id.id
+        return self.env['res.country.state'].search([('name', '=', 'Sevilla')]).id
 
     @api.onchange('stage_id')
     def _onchange_stage_id(self):
@@ -196,11 +225,11 @@ class Lead(models.Model):
                 lead.phone_state = 'correct'
             else:
                 phone_status = False
-                if lead.phone:
-                    country_code = lead.country_id.code if lead.country_id and lead.country_id.code else None
-                    try:
-                        if phone_validation.phone_parse(lead.phone, country_code):  # otherwise library not installed
-                            phone_status = 'correct'
-                    except UserError:
-                        phone_status = 'incorrect'
-                lead.phone_state = phone_status
+                # if lead.phone:
+                #     country_code = lead.country_id.code if lead.country_id and lead.country_id.code else None
+                #     try:
+                #         if phone_validation.phone_parse(lead.phone, country_code):  # otherwise library not installed
+                #             phone_status = 'correct'
+                #     except UserError:
+                #         phone_status = 'incorrect'
+                # lead.phone_state = phone_status
