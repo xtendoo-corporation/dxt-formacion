@@ -40,6 +40,25 @@ class Lead(models.Model):
             date = ''
         return date
 
+    def get_tutor(self):
+        if self.partner_id and self.partner_id.tutor:
+            return self.partner_id.tutor
+        return ''
+    def get_acept_sepa(self):
+        if self.partner_id and self.partner_id.accept_sepa:
+            print("*"*100)
+            print("aceppt_sepa", self.partner_id.accept_sepa)
+            print("*"*100)
+            if self.partner_id.accept_sepa:
+                return 'Si'
+            else:
+                return 'No'
+        return ''
+    def get_acept_sepa_boolean(self):
+        if self.partner_id and self.partner_id.accept_sepa:
+            return self.partner_id.accept_sepa
+        return False
+
     def get_state_name(self, state_id):
         state = self.env['res.country.state'].search([('id', '=', state_id)])
         if not state:
@@ -210,13 +229,14 @@ class Lead(models.Model):
     def _get_partner_phone_update(self):
         if self.env.user.name == 'Public user':
             return
-        self.ensure_one()
-        if self.partner_id and self.phone != self.partner_id.phone:
-            lead_phone_formatted = self.phone_get_sanitized_number(number_fname='phone') or self.phone or False
-            partner_phone_formatted = self.partner_id.phone_get_sanitized_number(
-                number_fname='phone') or self.partner_id.phone or False
-            return lead_phone_formatted != partner_phone_formatted
-        return False
+        # self.ensure_one()
+        # if self.partner_id and self.phone != self.partner_id.phone:
+        #     lead_phone_formatted = self.phone_get_sanitized_number(number_fname='phone') or self.phone or False
+        #     partner_phone_formatted = self.partner_id.phone_get_sanitized_number(
+        #         number_fname='phone') or self.partner_id.phone or False
+        #     return lead_phone_formatted != partner_phone_formatted
+        # return False
+        return True
 
     @api.depends('phone', 'country_id.code')
     def _compute_phone_state(self):

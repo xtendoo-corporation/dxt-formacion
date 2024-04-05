@@ -172,6 +172,9 @@ class CustomerPortal(portal.CustomerPortal):
                     'is_student': True,
                     'date_birth': date_birth,
                     'vat': post.get('vat'),
+                    'tutor': post.get('tutor'),
+                    'accept_sepa': post.get('accept_sepa'),
+                    'bank_account': post.get('bank_account'),
                 }
             )
         else:
@@ -189,7 +192,10 @@ class CustomerPortal(portal.CustomerPortal):
                     'zip': post.get('zip'),
                     'is_student': True,
                     'date_birth': date_birth,
-                    'vat': post.get('vat')
+                    'vat': post.get('vat'),
+                    'tutor': post.get('tutor'),
+                    'accept_sepa': post.get('accept_sepa'),
+                    'bank_account': post.get('bank_account'),
                 }
             )
         lead_to_write = request.env['crm.lead'].sudo().search([

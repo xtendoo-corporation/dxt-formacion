@@ -11,6 +11,10 @@ class ResPartner(models.Model):
                                      attachment=True,
                                      max_width=1024, max_height=1024)
 
+    accept_sepa = fields.Boolean('Acepto para SEPA', default=False)
+
+    bank_account = fields.Char('Cuenta Bancaria')
+
     @api.depends("zip_id")
     def _compute_city_id(self):
         if self.env.context.get('no_vat_validation'):
